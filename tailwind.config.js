@@ -1,5 +1,5 @@
 module.exports = {
-  content: ['index.html', 'register.html', 'chat.html','test2.html', 'chqtest.html'],
+  content: ['index.html', 'register.html', 'chat.html','login.html'],
   theme: {
     extend: {},
   },
