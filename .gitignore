@@ -1,5 +1,7 @@
 # Custom
 old_css/
+postcss.config.js
+tailwind.config.js
 
 # Logs
 logs
