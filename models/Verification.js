@@ -11,7 +11,7 @@ var Verification = new Schema({
     Nick: String,
     FullName: String,
     Password: String,
-    VerificationCode: SchemaTypes.Long,
+    VerificationCode: SchemaTypes.Long
 });
 
 
