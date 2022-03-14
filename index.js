@@ -57,8 +57,6 @@ app.get('/chat', function(request, response) {
 		console.log("not logged in")
 		response.send('Please login to view this page!');
 	}
-	response.end();
-	
 });
 
 app.post('/authenticate', function(request, response) {
