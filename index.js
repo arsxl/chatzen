@@ -42,7 +42,13 @@ app.get('/', function(request, response) {
 });
 
 app.get('/login', function(request, response) {
-	response.sendFile(path.join(__dirname + '/src/login.html'));
+	if (request.session.loggedin) {
+		console.log("logged in")
+		response.redirect('/chat');
+	} else {
+		console.log("not logged in")
+		response.sendFile(path.join(__dirname + '/src/login.html'));
+	}
 });
 
 app.get('/register', function(request, response) {
