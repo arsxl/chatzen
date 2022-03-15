@@ -6,6 +6,10 @@ require('mongoose-long')(mongoose);
 const randomNumber = require('random-number');
 
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 //Configuration
 require('dotenv').config();
@@ -29,7 +33,7 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'src')));
-
+//document.getElementById("name").innerHTML = request.session.nickname;
 //Database connection
 mongoose.connect(database, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.Promise = global.Promise;
@@ -80,6 +84,7 @@ app.post('/authenticate', function(request, response) {
 					console.log("password correct")
 					request.session.loggedin = true;
 					request.session.username = username;
+					request.session.nickname = result.Nick
 					response.redirect('/chat');	
 				} else {
 					console.log("password wrong")
@@ -156,6 +161,19 @@ app.get('/account/verification/:code', function (request, response) {
 	});
 });
 
-const listener = app.listen(port, function() {
+io.on('connection', (socket) => {
+	console.log('a user connected');
+	socket.on('disconnect', () => {
+		console.log('user disconnected');
+	});
+});
+
+io.on('connection', (socket) => {
+	socket.on('chat message', (msg) => {
+		io.emit('chat message', msg);
+	});
+});
+
+const listener = server.listen(port, function() {
 	console.log('Your app is listening on port ' + listener.address().port);
 }); 
