@@ -10,25 +10,52 @@
         <h1 class="text-center text-5xl text-blue-500 font-bold mt-8">Chatzen</h1>
         <h2 class="text-center text-3xl text-gray-800">Chatroom System</h2>
     </div>
-    <form action="/authenticate" method="post">
-      <div class="bg-white shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-4 mt-16 flex flex-col max-w-xl m-auto">
-        <div class="mb-4">
-          <label class="block text-grey-darker text-xl font-semibold mb-2" for="username">EMAIL</label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username" type="text" name="username" placeholder="Registered Email Address">
-        </div>
-        <div class="mb-6">
-          <label class="block text-grey-darker text-xl font-semibold mb-2" for="password">PASSWORD</label>
-          <input class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" name="password" placeholder="************">
-        </div>
-        <div class="flex items-center justify-between">
-          <input class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-xl" type="submit" value="LOGIN">
-          <a class="inline-block align-baseline font-light text-sm text-blue hover:text-blue-darker" href="register.html">DON'T HAVE AN ACCOUNT?</a>
-        </div>
+
+    <div class="bg-white shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-4 mt-16 flex flex-col max-w-xl m-auto">
+      <div class="mb-4">
+        <label class="block text-grey-darker text-xl font-semibold mb-2" for="username">EMAIL</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username" type="text" name="username" placeholder="Registered Email Address">
       </div>
-    </form>
+      <div class="mb-6">
+        <label class="block text-grey-darker text-xl font-semibold mb-2" for="password">PASSWORD</label>
+        <input class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" name="password" placeholder="************">
+      </div>
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-xl" id="login-btn">LOGIN</button>
+        <a class="inline-block align-baseline font-light text-sm text-blue hover:text-blue-darker" href="register.html">DON'T HAVE AN ACCOUNT?</a>
+      </div>
+    </div>
+
     <footer class="text-center font-light absolute w-full bottom-0 h-10">
       <p class="inline">Made for Western International College by Muhammad Arsalan Nawazish</p>
       <a href="admin.html" class="float-right mr-4 font-medium text-blue-500">ADMIN PANEL</a>
     </footer>
 </body>
+
+<script type="text/javascript">
+  document.getElementById("login-btn").onclick = async () => {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      const response = await fetch('/authenticate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const responseData = await response.json();
+      sessionStorage.setItem('current_user', JSON.stringify(responseData));
+      window.location.href = '/chat';
+
+    } catch (error) {
+      console.error(error)
+    }
+  };
+</script>
 </html>

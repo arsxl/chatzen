@@ -22,6 +22,7 @@
         <script src="/socket.io/socket.io.js"></script>
         <script>
             var socket = io();
+            var currentUser = JSON.parse(sessionStorage.getItem('current_user'));
 
             var messages = document.getElementById('messages');
             var form = document.getElementById('message-form');
@@ -30,15 +31,14 @@
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 if (input.value) {
-                socket.emit('chat message', input.value);
+                socket.emit('chat message', { msg: input.value, studentData: currentUser });
                 input.value = '';
                 }
             });
-            var socket = io();
 
-            socket.on('chat message', function(msg) {
+            socket.on('chat message', ({ msg, studentData }) => {
                 var item = document.createElement('li');
-                item.textContent = msg;
+                item.textContent = `${studentData.nick}: ${msg}`;
                 messages.appendChild(item);
                 window.scrollTo(0, document.body.scrollHeight);
             });

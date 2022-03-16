@@ -41,7 +41,7 @@ let db = mongoose.connection;
 
 console.log('Chatroom System started at http://localhost:' + port);
 
-app.get('/', function(request, response) {
+app.get('/', function(_request, response) {
 	response.sendFile(path.join(__dirname + '/src/index.html'));
 });
 
@@ -85,7 +85,16 @@ app.post('/authenticate', function(request, response) {
 					request.session.loggedin = true;
 					request.session.username = username;
 					request.session.nickname = result.Nick
-					response.redirect('/chat');	
+
+					const studentData = {
+						studentID: result.StudentId,
+						email: result.Email,
+						nick: result.Nick,
+						fullName: result.FullName,
+					};
+
+					response.json(studentData);
+
 				} else {
 					console.log("password wrong")
 					response.send('Wrong password entered, try again')
@@ -169,8 +178,8 @@ io.on('connection', (socket) => {
 });
 
 io.on('connection', (socket) => {
-	socket.on('chat message', (msg) => {
-		io.emit('chat message', msg);
+	socket.on('chat message', (data) => {
+		io.emit('chat message', { msg: data.msg, studentData: data.studentData });
 	});
 });
 
