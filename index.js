@@ -41,11 +41,11 @@ let db = mongoose.connection;
 
 console.log('Chatroom System started at http://localhost:' + port);
 
-app.get('/', function(_request, response) {
-	response.sendFile(path.join(__dirname + '/src/index.html'));
+app.get('/dashboard', function(_request, response) {
+	response.sendFile(path.join(__dirname + '/src/dashboard.html'));
 });
 
-app.get('/login', function(request, response) {
+app.get('/', function(request, response) {
 	if (request.session.loggedin) {
 		console.log("logged in")
 		response.redirect('/chat');
@@ -93,6 +93,7 @@ app.post('/authenticate', function(request, response) {
 						fullName: result.FullName,
 					};
 
+					console.log(studentData);
 					response.json(studentData);
 
 				} else {

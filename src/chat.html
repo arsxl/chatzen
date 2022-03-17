@@ -4,6 +4,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="style.css" rel="stylesheet" />
         <title>Chat | Eon</title>
+        <style>
+            #messages { list-style-type: none; margin: 0; padding: 0; }
+            #messages > li { padding: 0.5rem 1rem; }
+            #messages > li:nth-child(odd) { background: #efefef; }
+        </style>
     </head>
     <body class="bg-gray-100">
         <div>
@@ -38,7 +43,7 @@
 
             socket.on('chat message', ({ msg, studentData }) => {
                 var item = document.createElement('li');
-                item.textContent = `${studentData.nick}: ${msg}`;
+                item.textContent = `${studentData.fullName} (${studentData.nick}): ${msg}`;
                 messages.appendChild(item);
                 window.scrollTo(0, document.body.scrollHeight);
             });
