@@ -41,9 +41,6 @@ let db = mongoose.connection;
 
 console.log('Chatroom System started at http://localhost:' + port);
 
-app.get('/dashboard', function(_request, response) {
-	response.sendFile(path.join(__dirname + '/src/dashboard.html'));
-});
 
 app.get('/', function(request, response) {
 	if (request.session.loggedin) {
@@ -53,6 +50,10 @@ app.get('/', function(request, response) {
 		console.log("not logged in")
 		response.sendFile(path.join(__dirname + '/src/login.html'));
 	}
+});
+
+app.get('/dashboard', function(_request, response) {
+	response.sendFile(path.join(__dirname + '/src/dashboard.html'));
 });
 
 app.get('/register', function(request, response) {
@@ -93,7 +94,6 @@ app.post('/authenticate', function(request, response) {
 						fullName: result.FullName,
 					};
 
-					console.log(studentData);
 					response.json(studentData);
 
 				} else {
