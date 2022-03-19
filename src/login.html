@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="tailwind.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
     <title>Login | Eon</title>
 </head>
 <body class="bg-gradient-to-b from-cyan-300 to-blue-500">
@@ -51,7 +51,7 @@
 
       const responseData = await response.json();
       sessionStorage.setItem('current_user', JSON.stringify(responseData));
-      window.location.href = '/chat';
+      window.location.href = '/dashboard';
 
     } catch (error) {
       console.error(error)

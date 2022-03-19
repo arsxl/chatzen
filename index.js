@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 require('mongoose-long')(mongoose);
 const randomNumber = require('random-number');
+const nodemailer = require('nodemailer')
 
 const app = express();
 const http = require('http');
@@ -17,6 +18,10 @@ const conf = require('./config');
 const port = conf.port;
 const database = conf.database;
 const session_secret = conf.session_secret;
+const smtp_host = conf.smtp_host;
+const smtp_port = conf.smtp_port;
+const smtp_email = conf.smtp_email;
+const smtp_pass = conf.smtp_pass;
 
 //Models
 const User = require('./models/User');
@@ -41,19 +46,20 @@ let db = mongoose.connection;
 
 console.log('Chatroom System started at http://localhost:' + port);
 
-
 app.get('/', function(request, response) {
 	if (request.session.loggedin) {
-		console.log("logged in")
-		response.redirect('/chat');
+		response.redirect('/dashboard');
 	} else {
-		console.log("not logged in")
 		response.sendFile(path.join(__dirname + '/src/login.html'));
 	}
 });
 
-app.get('/dashboard', function(_request, response) {
-	response.sendFile(path.join(__dirname + '/src/dashboard.html'));
+app.get('/dashboard', function(request, response) {
+	if (request.session.loggedin) {
+		response.sendFile(path.join(__dirname + '/src/dashboard.html'));
+	} else {
+		response.redirect('/');
+	}
 });
 
 app.get('/register', function(request, response) {
@@ -62,11 +68,18 @@ app.get('/register', function(request, response) {
 
 app.get('/chat', function(request, response) {
 	if (request.session.loggedin) {
-		console.log("logged in")
 		response.sendFile(path.join(__dirname + '/src/chat.html'));
 	} else {
-		console.log("not logged in")
-		response.send('Please login to view this page!');
+		response.redirect('/login');
+	}
+});
+
+app.get('/account/logout', function(request, response) {
+	if (request.session.loggedin) {
+		request.session.destroy(function(error) { if (error) throw error; })
+		response.redirect('/');
+	} else {
+		response.redirect('/');
 	}
 });
 
@@ -135,6 +148,23 @@ app.post('/account/register', function(request, response) {
 			Password: password,
 			VerificationCode: verification_code
 		});
+		
+		const transporter = nodemailer.createTransport({
+			service: "Gmail",
+			auth: {
+				user: smtp_email,
+				pass: smtp_pass,
+				}
+		});
+
+		const messageOptions = {
+		subject: "Verify your Email - Chatzen",
+		text: `Hey there ${fullname}, please click on the link https://chatzen.tk/account/verification/${verification_code} to verify your email.`,
+		to: `${username}`,
+		from: `No-Reply@Chatzen <${smtp_email}>`
+		};
+
+		transporter.sendMail(messageOptions);
 		response.send('Sucessfully registered, check your email to be able to login.');
 		response.end();
 		console.log(`${username}'s code is ${verification_code}`)
@@ -168,13 +198,6 @@ app.get('/account/verification/:code', function (request, response) {
 			response.send('Invalid, either this link has expired or does not exist.');
 			response.end();
 		}
-	});
-});
-
-io.on('connection', (socket) => {
-	console.log('a user connected');
-	socket.on('disconnect', () => {
-		console.log('user disconnected');
 	});
 });
 
