@@ -2,39 +2,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet" />
-    <title>Register | Eon</title>
+    <link href="tailwind.css" rel="stylesheet" />
+    <title>Register | Chatzen</title>
 </head>
-<body class="bg-gray-100">
-    <div>
-        <h1 class="text-center text-5xl text-blue-500 font-bold mt-8">Chatzen</h1>
+<body class="bg-gradient-to-b from-cyan-300 to-blue-500">
+    <div class="bg-gray-300 shadow-xl pb-4 bg-opacity-70">
+        <h1 class="text-center text-5xl text-blue-500 font-bold pt-4">Chatzen</h1>
         <h2 class="text-center text-3xl text-gray-800">Chatroom System</h2>
     </div>
     <form action="/account/register" method="post">
-      <div class="bg-white shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-4 mt-12 flex flex-col max-w-xl m-auto">
+      <div class="bg-white bg-opacity-70 shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-8 mt-12 flex flex-col max-w-xl m-auto">
         <div class="mb-4">
           <label class="block text-grey-darker text-xl font-semibold mb-2" for="email">STUDENT ID</label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="studentid" type="text" name="studentid" placeholder="Enter your Student ID">
+          <input class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-grey-darker" id="studentid" type="text" name="studentid" placeholder="Enter your Student ID">
         </div>
         <div class="mb-4">
           <label class="block text-grey-darker text-xl font-semibold mb-2" for="email">EMAIL</label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username" type="text" name="username" placeholder="Enter your Registered Email Address">
+          <input class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-grey-darker" id="username" type="text" name="username" placeholder="Enter your Registered Email Address">
         </div>
         <div class="mb-4">
           <label class="block text-grey-darker text-xl font-semibold mb-2" for="email">NICKNAME</label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="nickname" type="text" name="nickname" placeholder="Enter your Nickname">
+          <input class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-grey-darker" id="nickname" type="text" name="nickname" placeholder="Enter your Nickname">
         </div>
         <div class="mb-4">
           <label class="block text-grey-darker text-xl font-semibold mb-2" for="fullname">FULLNAME</label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="fullname" type="text" name="fullname" placeholder="Enter Your Full Name">
+          <input class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-grey-darker" id="fullname" type="text" name="fullname" placeholder="Enter Your Full Name">
         </div>
         <div class="mb-6">
           <label class="block text-grey-darker text-xl font-semibold mb-2" for="password">PASSWORD</label>
-          <input class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" name="password" placeholder="************" required>
+          <input class="shadow appearance-none border border-red rounded-2xl w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" name="password" placeholder="************" required>
         </div>
         <div class="flex items-center justify-between">
-          <input class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-xl" type="submit" value="REGISTER">
-          <a class="inline-block align-baseline font-light text-sm text-blue hover:text-blue-darker" href="index.html">BACK TO LOGIN</a>
+          <input class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-2xl" type="submit" value="REGISTER">
+          <a class="inline-block align-baseline font-light text-sm text-blue hover:text-blue-darker" href="/login">BACK TO LOGIN</a>
         </div>
       </div>
     </form>

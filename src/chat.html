@@ -2,7 +2,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="style.css" rel="stylesheet" />
+        <link href="tailwind.css" rel="stylesheet" />
         <title>Chat | Eon</title>
         <style>
             #messages { list-style-type: none; margin: 0; padding: 0; }
@@ -10,9 +10,9 @@
             #messages > li:nth-child(odd) { background: #efefef; }
         </style>
     </head>
-    <body class="bg-gray-100">
-        <div>
-            <h1 class="text-center text-5xl text-blue-500 font-bold mt-8">Chatzen</h1>
+    <body class="bg-gradient-to-b from-cyan-300 to-blue-500">
+        <div class="bg-gray-300 shadow-xl pb-4 bg-opacity-70">
+            <h1 class="text-center text-5xl text-blue-500 font-bold pt-4">Chatzen</h1>
             <h2 id="name" class="text-center text-3xl text-gray-800">Chatroom System</h2>
         </div>
 
@@ -21,7 +21,7 @@
       
             <form id="message-form" class="text-center font-light fixed w-full bottom-0 h-10 left-0">
               <input id="message-input" type="text" placeholder="  Type your message" class="w-5/6 h-8 rounded-lg" />
-              <button id="message-btn" type="submit" class="bg-blue-500 text-white p-1 px-4 rounded-lg ml-3">Send</button>
+              <button id="message-btn" type="submit" class="bg-white text-black p-1 px-4 rounded-lg ml-3">Send</button>
             </form>
         </div>
         <script src="/socket.io/socket.io.js"></script>
