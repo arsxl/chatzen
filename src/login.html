@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet" />
-    <title>Login | Eon</title>
+    <title>Login | Chatzen</title>
 </head>
 <body class="bg-gradient-to-b from-cyan-300 to-blue-500">
     <div class="bg-gray-300 shadow-xl pb-4 bg-opacity-70">
@@ -11,24 +11,24 @@
         <h2 class="text-center text-3xl text-gray-800">Chatroom System</h2>
     </div>
 
-    <div class="bg-white bg-opacity-70 shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-4 mt-24 flex flex-col max-w-xl m-auto">
+    <div class="bg-white bg-opacity-70 shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-4 mt-16 flex flex-col max-w-xl m-auto">
       <div class="mb-4">
         <label class="block text-grey-darker text-xl font-semibold mb-2" for="username">EMAIL</label>
-        <input class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-grey-darker" id="username" type="text" name="username" placeholder="Registered Email Address">
+        <input class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-grey-darker" id="username" type="text" name="username" placeholder="Registered Email Address" required>
       </div>
       <div class="mb-6">
         <label class="block text-grey-darker text-xl font-semibold mb-2" for="password">PASSWORD</label>
-        <input class="shadow appearance-none border border-red rounded-2xl w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" name="password" placeholder="************">
+        <input class="shadow appearance-none border border-red rounded-2xl w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" name="password" placeholder="************" required>
       </div>
       <div class="flex items-center justify-between">
         <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-2xl" id="login-btn">LOGIN</button>
-        <a class="inline-block align-baseline font-light text-sm text-blue hover:text-blue-darker" href="register.html">DON'T HAVE AN ACCOUNT?</a>
+        <p class="inline-block align-baseline font-light text-sm text-blue"><a href="register.html">DON'T HAVE AN ACCOUNT? </a><a class="inline-block" href="register.html">FORGOT PASSWORD?</a></p>
       </div>
     </div>
 
-    <footer class="text-center font-light absolute w-full bottom-0 h-10">
-      <p class="inline">Made for Western International College by Muhammad Arsalan Nawazish</p>
-      <a href="admin.html" class="float-right mr-4 font-medium text-red-500">ADMIN PANEL</a>
+    <footer class="bg-gray-300 shadow-xl bg-opacity-70 text-center font-light absolute w-full bottom-0 h-10 pt-2">
+      <p class="inline">Made for Western International College</p>
+      <a href="admin.html" class="float-right mr-4 bg-blue-500 hover:bg-blue-800 text-white font-bold py-0 px-4 rounded-xl">ADMIN PANEL</a>
     </footer>
 </body>
 
@@ -36,25 +36,34 @@
   document.getElementById("login-btn").onclick = async () => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
+    
+    if (username && password) {
+      try {
+        const response = await fetch('/authenticate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        });
 
-    try {
-      const response = await fetch('/authenticate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-
-      const responseData = await response.json();
-      sessionStorage.setItem('current_user', JSON.stringify(responseData));
-      window.location.href = '/dashboard';
-
-    } catch (error) {
-      console.error(error)
+        const responseData = await response.json();
+        if (responseData.noResult == true) {
+          alert("Wrong Email; Please Try Again!")
+        } else if (responseData.wrongPass == true) {
+          alert("Wrong Password; Please Try Again!")
+        } else {
+          sessionStorage.setItem('current_user', JSON.stringify(responseData));
+          window.location.href = '/dashboard';
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      alert("Please enter both Email and Password");
     }
   };
 </script>

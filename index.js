@@ -88,14 +88,13 @@ app.post('/authenticate', function(request, response) {
 	let password = request.body.password;
 
 	if (username && password) {
-		console.log("true")
+		//console.log("true")
 		User.findOne({ Email: username }, function (error, result) {
 			if (error) throw error;
 
 			if (result) {
-				console.log("result")
 				if (result.Password === password) {
-					console.log("password correct")
+					//console.log("password correct")
 					request.session.loggedin = true;
 					request.session.username = username;
 					request.session.nickname = result.Nick
@@ -110,16 +109,20 @@ app.post('/authenticate', function(request, response) {
 					response.json(studentData);
 
 				} else {
-					console.log("password wrong")
-					response.send('Wrong password entered, try again')
-					response.redirect('/login')
+					//console.log("password wrong")
+					//response.send('Wrong password entered, try again')
+					//response.redirect('/login')
+					response.json({wrongPass: true});
 				}
 			} else {
-				console.log("no result")
+				//console.log("no result")
+				response.json({noResult: true});
 			}
 		});
 	} else {
-		console.log("false")
+		response.json({invalid: true});
+		//response.send('EMAIL AND/OR PASSWORD NOT ENTERED')
+		//setTimeout(() => { response.redirect('/login') }, 5000);
 	}
 });
 
@@ -165,13 +168,15 @@ app.post('/account/register', function(request, response) {
 		};
 
 		transporter.sendMail(messageOptions);
-		response.send('Sucessfully registered, check your email to be able to login.');
-		response.end();
+		response.json({success: true});
+		//response.send('Sucessfully registered, check your email to be able to login.');
+		//response.end();
 		console.log(`${username}'s code is ${verification_code}`)
 	} else {
 		console.log("false")
-		response.send('Not provided required information, try again.');
-		response.send();
+		response.json({invalid: true});
+		//response.send('Not provided required information, try again.');
+		//response.send();
 	}
 });
 
