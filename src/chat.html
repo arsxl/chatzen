@@ -1,31 +1,33 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="tailwind.css" rel="stylesheet" />
-        <title>Chat | Eon</title>
+        <link href="style.css" rel="stylesheet" />
+        <title>Chat | Chatzen</title>
         <style>
-            #messages { list-style-type: none; margin: 0; padding: 0; }
+            #messages { list-style-type: none; margin: 0; padding-bottom: 30%; padding: 0; }
             #messages > li { padding: 0.5rem 1rem; }
             #messages > li:nth-child(odd) { background: #efefef; }
         </style>
     </head>
-    <body class="bg-gradient-to-b from-cyan-300 to-blue-500">
+    <body class="h-full bg-gradient-to-b from-cyan-300 to-blue-500">
         <div class="bg-gray-300 shadow-xl pb-4 bg-opacity-70">
             <h1 class="text-center text-5xl text-blue-500 font-bold pt-4">Chatzen</h1>
-            <h2 id="name" class="text-center text-3xl text-gray-800">Chatroom System</h2>
+            <h2 class="text-center text-3xl text-gray-800">Chatroom System</h2>
+            <a href="/dashboard" class="float-right mr-2 bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-3 rounded-xl -mt-14">DASHBOARD</a>
         </div>
 
-        <div id="chat">
+        <div id="chat" class="text-xl m-auto">
             <ul id="messages"></ul>
       
-            <form id="message-form" class="text-center font-light fixed w-full bottom-0 h-10 left-0">
+            <form id="message-form" class="text-center font-light w-full fixed bottom-0 h-10 left-0">
               <input id="message-input" type="text" placeholder="  Type your message" class="w-5/6 h-8 rounded-lg" />
               <button id="message-btn" type="submit" class="bg-white text-black p-1 px-4 rounded-lg ml-3">Send</button>
             </form>
         </div>
         <script src="/socket.io/socket.io.js"></script>
-        <script>
+        <script type="text/javascript">
             var socket = io();
             var currentUser = JSON.parse(sessionStorage.getItem('current_user'));
 

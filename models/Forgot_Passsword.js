@@ -4,12 +4,10 @@ require('mongoose-long')(mongoose);
 var Schema = mongoose.Schema;
 var SchemaTypes = mongoose.Schema.Types;
 
-var User = new Schema({
+var Forgot_Password = new Schema({
     StudentId: String,
     Email: String,
-    Nick: String,
-    FullName: String,
-    Password: String
+    VerificationCode: SchemaTypes.Long
 });
 
-module.exports = mongoose.model('User', User);
+module.exports = mongoose.model('Forgot_Password', Forgot_Password);

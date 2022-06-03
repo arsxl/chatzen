@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,13 +6,13 @@
     <link href="style.css" rel="stylesheet" />
     <title>Login | Chatzen</title>
 </head>
-<body class="bg-gradient-to-b from-cyan-300 to-blue-500">
+<body class="h-screen bg-gradient-to-b from-cyan-300 to-blue-500">
     <div class="bg-gray-300 shadow-xl pb-4 bg-opacity-70">
         <h1 class="text-center text-5xl text-blue-500 font-bold pt-4">Chatzen</h1>
         <h2 class="text-center text-3xl text-gray-800">Chatroom System</h2>
     </div>
 
-    <div class="bg-white bg-opacity-70 shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-4 mt-16 flex flex-col max-w-xl m-auto">
+    <div class="bg-white bg-opacity-70 shadow-lg rounded-2xl px-16 pt-8 pb-8 m-auto mb-4 mt-20 flex flex-col max-w-xl">
       <div class="mb-4">
         <label class="block text-grey-darker text-xl font-semibold mb-2" for="username">EMAIL</label>
         <input class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-grey-darker" id="username" type="text" name="username" placeholder="Registered Email Address" required>
@@ -22,13 +23,13 @@
       </div>
       <div class="flex items-center justify-between">
         <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-2xl" id="login-btn">LOGIN</button>
-        <p class="inline-block align-baseline font-light text-sm text-blue"><a href="register.html">DON'T HAVE AN ACCOUNT? </a><a class="inline-block" href="register.html">FORGOT PASSWORD?</a></p>
+        <p class="inline-block align-baseline font-light text-sm text-blue"><a href="register">DON'T HAVE AN ACCOUNT? </a><a class="inline-block" href="forgot_password">FORGOT PASSWORD?</a></p>
       </div>
     </div>
 
     <footer class="bg-gray-300 shadow-xl bg-opacity-70 text-center font-light absolute w-full bottom-0 h-10 pt-2">
       <p class="inline">Made for Western International College</p>
-      <a href="admin.html" class="float-right mr-4 bg-blue-500 hover:bg-blue-800 text-white font-bold py-0 px-4 rounded-xl">ADMIN PANEL</a>
+      <!-- <a href="admin.html" class="float-right mr-4 bg-blue-500 hover:bg-blue-800 text-white font-bold py-0 px-4 rounded-xl">ADMIN PANEL</a> -->
     </footer>
 </body>
 
@@ -51,6 +52,8 @@
         });
 
         const responseData = await response.json();
+        console.log (responseData);
+        
         if (responseData.noResult == true) {
           alert("Wrong Email; Please Try Again!")
         } else if (responseData.wrongPass == true) {

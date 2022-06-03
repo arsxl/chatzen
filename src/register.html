@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +11,6 @@
         <h1 class="text-center text-5xl text-blue-500 font-bold pt-4">Chatzen</h1>
         <h2 class="text-center text-3xl text-gray-800">Chatroom System</h2>
     </div>
-    <form action="/account/register" method="post">
       <div class="bg-white bg-opacity-70 shadow-lg rounded-2xl px-16 pt-8 pb-8 mb-8 mt-12 flex flex-col max-w-xl m-auto">
         <div class="mb-4">
           <label class="block text-grey-darker text-xl font-semibold mb-2" for="email">STUDENT ID</label>
@@ -35,24 +35,60 @@
         <div class="flex items-center justify-between">
           <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-2xl" id="register-btn">REGISTER</button>
           <!-- <input class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-2xl" type="submit" value="REGISTER"> -->
-          <a class="inline-block align-baseline font-light text-sm text-blue hover:text-blue-darker" href="/login">BACK TO LOGIN</a>
+          <a class="inline-block align-baseline font-light text-sm text-blue hover:text-blue-darker" href="/">BACK TO LOGIN</a>
         </div>
-      </div>
-    </form>    
+      </div>  
     <footer class="bg-white bg-opacity-70 shadow-lg text-center font-light w-full -bottom-44 h-10 pt-2">Made for Western International College by Muhammad Arsalan Nawazish</footer>
     <script type="text/javascript">
     document.getElementById("register-btn").onclick = async () => {
-      try {
-        const response = await fetch('/account/register');
+      
+      const studentid = document.getElementById("studentid").value;
+      const username = document.getElementById("username").value;
+      const nickname = document.getElementById("nickname").value;
+      const fullname = document.getElementById("fullname").value;
+      const password = document.getElementById("password").value;
+
+      if (studentid && username && nickname && fullname && password) {
+        const response = await fetch('/account/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            studentid,
+            username,
+            nickname,
+            fullname,
+            password
+          })
+        });
+
         const responseData = await response.json();
-          
-        if (responseData.success == true) {
-          alert("Account sucessfully registered, please check your email.")
-        } else if (responseData.invalid == true) {
-          alert("PLease provide the required information.")
+
+        if (responseData.invalidInput) {
+          alert("Invalid Input; Please fill all required fields.");
+        } else if (responseData.invalidStudentId) {
+          alert("Invalid Input; Please use a valid Student ID.");
+        } else if (responseData.invalidEmail) {
+          alert("Invalid Input; Please use a valid Email Address.");
+        } else if (responseData.studentIdUsed) {
+          alert("Invalid Input; Account associated with this Student ID already exists.");
+        } else if (responseData.studentIdActiveRegistration) {
+          alert("Invalid Input; Registration request associated with this Student ID is currently active.");
+        } else if (responseData.registrationExists) {
+          alert("Invalid Input; Registration request is already active, please try again in 5 minutes.");
+        } else if (responseData.accountExists) {
+          alert("Invalid Input; Account associated with this Email Address already exists.");
+        } else if (responseData.whitespace) {
+          alert("Invalid Input; Please avoid use of spaces in nickname.");
+        } else if (responseData.passwordTooShort) {
+          alert("Invalid Input; Password must be at least 8 characters long.");
+        } else if (responseData.success) {
+          alert("Registration Successful; Please check your email for verification link.");
+          window.location.href = "/";
         }
-      } catch (error) {
-         console.error(error)
+      } else {
+        alert("Invalid Input; Please fill all required fields.");
       }
     };
     </script>

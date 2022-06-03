@@ -4,9 +4,8 @@ require('mongoose-long')(mongoose);
 var Schema = mongoose.Schema;
 var SchemaTypes = mongoose.Schema.Types;
 
-var Roles = new Schema({
-    userId: SchemaTypes.Long,
-    isAdmin: Boolean
+var StudentID = new Schema({
+    StudentId: String
 });
 
-module.exports = mongoose.model('Roles', Roles);
+module.exports = mongoose.model('StudentID', StudentID);
